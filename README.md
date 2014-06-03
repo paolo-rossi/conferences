@@ -1,4 +1,4 @@
 conferences
 ===========
 
-My conference code
+My conferences code
