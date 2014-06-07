@@ -1,9 +1,9 @@
-object Form1: TForm1
+object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
-  ClientHeight = 480
-  ClientWidth = 640
+  Caption = 'GitHub REST Demo'
+  ClientHeight = 601
+  ClientWidth = 756
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
@@ -13,4 +13,150 @@ object Form1: TForm1
   DesignerDeviceName = ''
   DesignerOrientation = 0
   DesignerOSVersion = ''
+  object btnHelloWorld: TButton
+    StyledSettings = [Family, Style, FontColor]
+    Height = 25.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 16.000000000000000000
+    TabOrder = 3
+    Text = 'Hello World'
+    TextSettings.Font.Size = 14.000000000000000000
+    Width = 113.000000000000000000
+    OnClick = btnHelloWorldClick
+  end
+  object btnUser: TButton
+    StyledSettings = [Family, Style, FontColor]
+    Height = 25.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 48.000000000000000000
+    TabOrder = 2
+    Text = 'Get User'
+    TextSettings.Font.Size = 14.000000000000000000
+    Width = 113.000000000000000000
+    OnClick = btnUserClick
+  end
+  object btnCustom: TButton
+    StyledSettings = [Family, Style, FontColor]
+    Height = 25.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 136.000000000000000000
+    TabOrder = 1
+    Text = 'Custom Cmd'
+    TextSettings.Font.Size = 14.000000000000000000
+    Width = 113.000000000000000000
+    OnClick = btnCustomClick
+  end
+  object ctrlResponse: TTabControl
+    Align = Bottom
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Height = 387.000000000000000000
+    Position.Y = 192.000000000000000000
+    TabIndex = 0
+    TabOrder = 5
+    Width = 756.000000000000000000
+    object tabHeaders: TTabItem
+      CustomIcon = <
+        item
+        end>
+      Height = 24.000000000000000000
+      IsSelected = True
+      TabOrder = 0
+      Text = 'Headers'
+      Width = 61.000000000000000000
+      object mmoHeaders: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Align = Client
+        Height = 363.000000000000000000
+        TabOrder = 4
+        Width = 756.000000000000000000
+        TextSettings.Font.Family = 'Source Code Pro'
+        TextSettings.Font.Size = 16.000000000000000000
+        StyledSettings = [Style, FontColor]
+      end
+    end
+    object tabContent: TTabItem
+      CustomIcon = <
+        item
+        end>
+      Height = 24.000000000000000000
+      IsSelected = False
+      TabOrder = 0
+      Text = 'Content'
+      Width = 59.000000000000000000
+      object mmoContent: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Align = Client
+        Height = 363.000000000000000000
+        TabOrder = 4
+        Width = 756.000000000000000000
+        TextSettings.Font.Family = 'Source Code Pro'
+        TextSettings.Font.Size = 16.000000000000000000
+        StyledSettings = [Style, FontColor]
+      end
+    end
+    object tabGrid: TTabItem
+      CustomIcon = <
+        item
+        end>
+      Height = 24.000000000000000000
+      IsSelected = False
+      TabOrder = 0
+      Text = 'Grid'
+      Width = 39.000000000000000000
+      object gridResponse: TStringGrid
+        Align = Client
+        Height = 363.000000000000000000
+        TabOrder = 0
+        Width = 756.000000000000000000
+        RowCount = 1
+        RowHeight = 21.000000000000000000
+      end
+    end
+  end
+  object StatusBar1: TStatusBar
+    Height = 22.000000000000000000
+    Position.Y = 579.000000000000000000
+    ShowSizeGrip = True
+    Width = 756.000000000000000000
+    TabOrder = 7
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 13
+    Position.X = 8.000000000000000000
+    Position.Y = 104.000000000000000000
+    Width = 113.000000000000000000
+    Height = 22.000000000000000000
+  end
+  object ListView1: TListView
+    ItemAppearanceClassName = 'TListItemAppearance'
+    ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    Align = Right
+    Height = 192.000000000000000000
+    Position.X = 376.000000000000000000
+    TabOrder = 14
+    Width = 380.000000000000000000
+    ItemAppearanceObjects.ItemObjects.Text.Font.Style = [fsBold]
+    OnItemClick = ListView1ItemClick
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = dmMain.ResponseTable
+    ScopeMappings = <>
+    Left = 240
+    Top = 240
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 444
+    Top = 301
+    object LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      GridControl = gridResponse
+      Columns = <>
+    end
+  end
 end
