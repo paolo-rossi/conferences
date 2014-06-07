@@ -23,16 +23,28 @@ type
     StatusBar1: TStatusBar;
     tabGrid: TTabItem;
     gridResponse: TStringGrid;
+    Edit1: TEdit;
     BindSourceDB1: TBindSourceDB;
     BindingsList1: TBindingsList;
     LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
-    Edit1: TEdit;
-    ListView1: TListView;
+    pnlButtons: TPanel;
+    pnlList: TPanel;
+    listHyperMedia: TListView;
+    Label1: TLabel;
+    pnlParams: TPanel;
+    Label2: TLabel;
+    lblHyperMedia: TLabel;
+    listParams: TListView;
+    pnlLeft: TPanel;
+    btnNavigate: TButton;
     procedure btnHelloWorldClick(Sender: TObject);
     procedure btnUserClick(Sender: TObject);
     procedure btnCustomClick(Sender: TObject);
-    procedure ListView1ItemClick(const Sender: TObject;
+    procedure listHyperMediaItemClick(const Sender: TObject;
       const AItem: TListViewItem);
+    procedure gridResponseDblClick(Sender: TObject);
+    procedure listHyperMediaDblClick(Sender: TObject);
+    procedure btnNavigateClick(Sender: TObject);
   private
     procedure ParseHyperMedia(ADataSet: TDataSet);
   public
@@ -45,15 +57,15 @@ var
 implementation
 
 uses
-  System.JSON, REST.Json, REST.Module.Main;
+  System.JSON, REST.Json, REST.Client, REST.Data.Main;
 
 {$R *.fmx}
 
 procedure TfrmMain.btnCustomClick(Sender: TObject);
 begin
   mmoContent.Lines.Text := dmMain.DoRequestCustom(Edit1.Text);
-  mmoHeaders.Lines.Text := dmMain.ResponseGitHub.Headers.Text;
-  dmMain.ResponseTable.Open;
+  mmoHeaders.Lines.Text := dmMain.RESTResponseGitHub.Headers.Text;
+  dmMain.dsResponse.Open;
 end;
 
 procedure TfrmMain.btnHelloWorldClick(Sender: TObject);
@@ -61,19 +73,53 @@ begin
   ShowMessage(dmMain.DoRequestHello);
 end;
 
+procedure TfrmMain.btnNavigateClick(Sender: TObject);
+var
+  LItem: TListViewItem;
+begin
+  LItem := listHyperMedia.Selected;
+  if Assigned(LItem) then
+  begin
+    mmoContent.Lines.Text := dmMain.DoNavigate;
+    mmoHeaders.Lines.Text := dmMain.RESTResponseGitHub.Headers.Text;
+    dmMain.dsResponse.Open;
+  end;
+end;
+
 procedure TfrmMain.btnUserClick(Sender: TObject);
 begin
   mmoContent.Lines.Text := dmMain.DoRequestUser('paolo-rossi');
-  mmoHeaders.Lines.Text := dmMain.ResponseGitHub.Headers.Text;
-  dmMain.ResponseTable.Open;
-
-  ParseHyperMedia(dmMain.ResponseTable);
+  mmoHeaders.Lines.Text := dmMain.RESTResponseGitHub.Headers.Text;
+  dmMain.dsResponse.Open;
 end;
 
-procedure TfrmMain.ListView1ItemClick(const Sender: TObject;
-  const AItem: TListViewItem);
+procedure TfrmMain.gridResponseDblClick(Sender: TObject);
 begin
-  ShowMessage(AItem.Detail);
+  ParseHyperMedia(dmMain.dsResponse);
+end;
+
+procedure TfrmMain.listHyperMediaDblClick(Sender: TObject);
+begin
+  Showmessage('button');
+end;
+
+procedure TfrmMain.listHyperMediaItemClick(const Sender: TObject; const AItem: TListViewItem);
+var
+  LParams: TRESTRequestParameterList;
+  LParam: TRESTRequestParameter;
+  LItem: TListViewItem;
+begin
+  lblHyperMedia.Text := AItem.Detail;
+  listParams.ClearItems;
+  LParams := dmMain.ParseParams(AItem.Detail);
+  if Assigned(LParams) then
+  begin
+    for LParam in LParams do
+    begin
+      LItem := listParams.Items.Add;
+      LItem.Text := LParam.ToString;
+    end;
+  end;
 end;
 
 procedure TfrmMain.ParseHyperMedia(ADataSet: TDataSet);
@@ -81,20 +127,18 @@ var
   LIndex: Integer;
   LItem: TListViewItem;
 begin
-  ADataSet.First;
-  if not ADataSet.Eof then
+  listHyperMedia.ClearItems;
+  for LIndex := 0 to ADataSet.Fields.Count - 1 do
   begin
-    for LIndex := 0 to ADataSet.Fields.Count - 1 do
+    if Pos('_url', ADataSet.Fields[LIndex].FieldName) > 0 then
     begin
-      if Pos('_url', ADataSet.Fields[LIndex].FieldName) > 0 then
-      begin
-        LItem := ListView1.Items.Add;
-        LItem.Text := ADataSet.Fields[LIndex].FieldName;
-        LItem.Detail := ADataSet.Fields[LIndex].AsString;
-      end;
+      LItem := listHyperMedia.Items.Add;
+
+      LItem.ButtonText := '->';
+      LItem.Text := ADataSet.Fields[LIndex].FieldName;
+      LItem.Detail := ADataSet.Fields[LIndex].AsString;
     end;
   end;
-
 end;
 
 end.

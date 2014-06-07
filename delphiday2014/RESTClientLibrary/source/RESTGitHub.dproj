@@ -101,7 +101,7 @@
             <Form>frmMain</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="REST.Module.Main.pas">
+        <DCCReference Include="REST.Data.Main.pas">
             <Form>dmMain</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
