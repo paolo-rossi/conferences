@@ -4,7 +4,7 @@ uses
   System.StartUpCopy,
   FMX.MobilePreview,
   FMX.Forms,
-  TetherApp.Form.Main in 'TetherApp.Form.Main.pas' {Form1};
+  MainFormUnit in 'MainFormUnit.pas' {Form1};
 
 {$R *.res}
 
