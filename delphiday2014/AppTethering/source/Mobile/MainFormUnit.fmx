@@ -200,4 +200,27 @@ object Form1: TForm1
     Left = 128
     Top = 296
   end
+  object KinveyProvider1: TKinveyProvider
+    ApiVersion = '3'
+    AppKey = 'kid_TPQyMLnzIO'
+    AppSecret = '42539fade5d544b5b31ddcd5892eeb56'
+    MasterSecret = '9439eafb95024f378ebb6c0cf2860ca9'
+    UserName = 'andrea'
+    Password = 'password'
+    AndroidPush.GCMAppID = '64869271271'
+    Left = 224
+    Top = 96
+  end
+  object PushEvents1: TPushEvents
+    Provider = KinveyProvider1
+    OnDeviceTokenRequestFailed = PushEvents1DeviceTokenRequestFailed
+    OnPushReceived = PushEvents1PushReceived
+    OnDeviceRegistered = PushEvents1DeviceRegistered
+    Left = 224
+    Top = 160
+  end
+  object NotificationCenter1: TNotificationCenter
+    Left = 256
+    Top = 232
+  end
 end

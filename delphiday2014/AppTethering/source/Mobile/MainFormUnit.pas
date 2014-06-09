@@ -7,7 +7,10 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.ListBox, FMX.Edit, FMX.Layouts, FMX.Memo, Fmx.Platform, IPPeerClient,
   IPPeerServer, System.Tether.Manager, System.Tether.AppProfile, System.Actions,
-  FMX.ActnList;
+  FMX.ActnList, REST.OpenSSL, REST.Backend.PushTypes, System.JSON,
+  REST.Backend.KinveyPushDevice, System.PushNotification, Data.Bind.Components,
+  Data.Bind.ObjectScope, REST.Backend.BindSource, REST.Backend.PushDevice,
+  REST.Backend.KinveyProvider, FMX.Notification;
 
 type
   TForm1 = class(TForm)
@@ -24,6 +27,9 @@ type
     TetheringManager1: TTetheringManager;
     TetheringAppProfile1: TTetheringAppProfile;
     Button2: TButton;
+    KinveyProvider1: TKinveyProvider;
+    PushEvents1: TPushEvents;
+    NotificationCenter1: TNotificationCenter;
     procedure ButtonScanClick(Sender: TObject);
     procedure ButtonProduceClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -34,6 +40,10 @@ type
       const RemoteManagers: TTetheringManagerInfoList);
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure PushEvents1PushReceived(Sender: TObject; const AData: TPushData);
+    procedure PushEvents1DeviceRegistered(Sender: TObject);
+    procedure PushEvents1DeviceTokenRequestFailed(Sender: TObject;
+      const AErrorMessage: string);
   private
     FClipboardService: IFMXClipboardService;
     FApplicationEventService: IFMXApplicationEventService;
@@ -171,6 +181,35 @@ end;
 procedure TForm1.Log(const AString: string);
 begin
   Memo1.Lines.Add(DateTimeToStr(Now) + ': ' + AString);
+end;
+
+procedure TForm1.PushEvents1DeviceRegistered(Sender: TObject);
+begin
+  Log('Registered');
+end;
+
+procedure TForm1.PushEvents1DeviceTokenRequestFailed(Sender: TObject;
+  const AErrorMessage: string);
+begin
+  Log('Error: ' + AErrorMessage);
+end;
+
+procedure TForm1.PushEvents1PushReceived(Sender: TObject;
+  const AData: TPushData);
+var
+  LNotification: TNotification;
+begin
+  Log('Push received: ' + AData.Message);
+
+//  LNotification := NotificationCenter1.CreateNotification;
+//  try
+//    LNotification.EnableSound := True;
+//    LNotification.AlertBody := AData.Message;
+//    NotificationCenter1.PresentNotification(LNotification);
+//  except
+//    LNotification.Free;
+//    raise;
+//  end;
 end;
 
 procedure TForm1.TetheringManager1EndManagersDiscovery(const Sender: TObject;
