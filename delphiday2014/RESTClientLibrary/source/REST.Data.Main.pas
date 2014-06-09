@@ -17,6 +17,7 @@ type
     RESTRequestGitHub: TRESTRequest;
     RESTResponseGitHub: TRESTResponse;
     authGitHub: TOAuth2Authenticator;
+    OAuth2Authenticator1: TOAuth2Authenticator;
   private
     function FormatResponse(AResponse: TRESTResponse): string;
   public
@@ -26,6 +27,7 @@ type
     function DoRequestCustom(AResource: string): string;
     function DoRequestHello: string;
     function DoNavigate: string;
+    procedure DoAuthorize;
   end;
 
 var
@@ -41,6 +43,11 @@ uses
 {$R *.dfm}
 
 { TdmMain }
+
+procedure TdmMain.DoAuthorize;
+begin
+  //OAuth2Authenticator1.Authenticate();
+end;
 
 function TdmMain.DoNavigate: string;
 begin

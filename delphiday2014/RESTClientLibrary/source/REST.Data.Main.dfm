@@ -53,4 +53,15 @@ object dmMain: TdmMain
     Left = 144
     Top = 32
   end
+  object OAuth2Authenticator1: TOAuth2Authenticator
+    AccessToken = '370963fee50f46aa83e9f595598a07717248e3cb'
+    AccessTokenEndpoint = 'https://github.com/login/oauth/access_token'
+    AuthorizationEndpoint = 'https://github.com/login/oauth/authorize'
+    ClientID = 'f031285a0910838a48b5'
+    ClientSecret = 'f29ffb8751bf1790ec18c800c902a053ea906c90'
+    RedirectionEndpoint = 'http://www.delphiday.it'
+    TokenType = ttBEARER
+    Left = 360
+    Top = 112
+  end
 end

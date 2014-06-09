@@ -37,6 +37,7 @@ type
     listParams: TListView;
     pnlLeft: TPanel;
     btnNavigate: TButton;
+    btnAuthForm: TButton;
     procedure btnHelloWorldClick(Sender: TObject);
     procedure btnUserClick(Sender: TObject);
     procedure btnCustomClick(Sender: TObject);
@@ -45,8 +46,10 @@ type
     procedure gridResponseDblClick(Sender: TObject);
     procedure listHyperMediaDblClick(Sender: TObject);
     procedure btnNavigateClick(Sender: TObject);
+    procedure btnAuthFormClick(Sender: TObject);
   private
     procedure ParseHyperMedia(ADataSet: TDataSet);
+    procedure AuthRedirect(const AURL: string; var DoCloseWebView: Boolean);
   public
     { Public declarations }
   end;
@@ -57,9 +60,29 @@ var
 implementation
 
 uses
-  System.JSON, REST.Json, REST.Client, REST.Data.Main;
+  System.JSON, REST.Json, REST.Client, REST.Authenticator.OAuth.WebForm.Win,
+  REST.Data.Main;
 
 {$R *.fmx}
+
+procedure TfrmMain.AuthRedirect(const AURL: string; var DoCloseWebView: Boolean);
+begin
+  ShowMessage(AURL);
+  //dmMain.OAuth2Authenticator1.Authenticate();
+end;
+
+procedure TfrmMain.btnAuthFormClick(Sender: TObject);
+var
+  LForm: Tfrm_OAuthWebForm;
+begin
+  LForm := Tfrm_OAuthWebForm.Create(nil);
+  try
+    LForm.OnAfterRedirect := AuthRedirect;
+    LForm.ShowModalWithURL(dmMain.OAuth2Authenticator1.AuthorizationRequestURI);
+  finally
+    LForm.Free;
+  end;
+end;
 
 procedure TfrmMain.btnCustomClick(Sender: TObject);
 begin
@@ -139,6 +162,7 @@ begin
       LItem.Detail := ADataSet.Fields[LIndex].AsString;
     end;
   end;
+  listHyperMedia.ItemIndex := -1;
 end;
 
 end.
