@@ -1,0 +1,203 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 567
+  ClientWidth = 384
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMobile = True
+  DesignerWidth = 384
+  DesignerHeight = 592
+  DesignerDeviceName = 'Google Nexus 4'
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object Memo1: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    Align = Client
+    Height = 467.000000000000000000
+    TabOrder = 0
+    Width = 384.000000000000000000
+  end
+  object LayoutTop: TLayout
+    Align = Top
+    Height = 50.000000000000000000
+    Width = 384.000000000000000000
+    object ButtonScan: TButton
+      Anchors = [akTop, akRight]
+      Height = 44.000000000000000000
+      Position.X = 281.000000000000000000
+      Position.Y = 3.000000000000000000
+      TabOrder = 0
+      Text = 'Scan'
+      Width = 100.000000000000000000
+      OnClick = ButtonScanClick
+    end
+    object Button1: TButton
+      Height = 44.000000000000000000
+      Position.X = 8.000000000000000000
+      TabOrder = 1
+      Text = 'actAggiungi'
+      Width = 73.000000000000000000
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Height = 44.000000000000000000
+      Position.X = 88.000000000000000000
+      TabOrder = 2
+      Text = 'Button2'
+      Width = 73.000000000000000000
+      OnClick = Button2Click
+    end
+  end
+  object LayoutBottom: TLayout
+    Align = Bottom
+    Height = 50.000000000000000000
+    Position.Y = 517.000000000000000000
+    Width = 384.000000000000000000
+    object ButtonProduce: TButton
+      Height = 44.000000000000000000
+      Position.X = 3.000000000000000000
+      Position.Y = 3.000000000000000000
+      TabOrder = 0
+      Text = 'Produce'
+      Width = 100.000000000000000000
+      OnClick = ButtonProduceClick
+    end
+    object ComboBoxFormat: TComboBox
+      Anchors = [akLeft, akTop, akRight]
+      DisableFocusEffect = False
+      Height = 32.000000000000000000
+      ItemIndex = 11
+      Position.X = 104.000000000000000000
+      Position.Y = 10.000000000000000000
+      TabOrder = 1
+      Width = 121.000000000000000000
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 0
+        Text = 'UPC_A'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 1
+        Text = 'UPC_E'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 2
+        Text = 'EAN_8'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 3
+        Text = 'EAN_13'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 4
+        Text = 'RSS_14'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 5
+        Text = 'CODE_39'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 6
+        Text = 'CODE_93'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 7
+        Text = 'CODE_128'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 8
+        Text = 'ITF'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 9
+        Text = 'RSS_14'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 10
+        Text = 'RSS_EXPANDED'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        IsSelected = True
+        TabOrder = 11
+        Text = 'QR_CODE'
+        Width = 19.000000000000000000
+      end
+      object TListBoxItem
+        Height = 19.000000000000000000
+        TabOrder = 12
+        Text = 'DATA_MATRIX'
+        Width = 19.000000000000000000
+      end
+    end
+    object ButtonClearLog: TButton
+      Anchors = [akTop, akRight]
+      Height = 30.000000000000000000
+      Position.X = 347.000000000000000000
+      Position.Y = 10.000000000000000000
+      StyleLookup = 'cleareditbutton'
+      TabOrder = 2
+      Text = 'ButtonClearLog'
+      Width = 32.000000000000000000
+      OnClick = ButtonClearLogClick
+    end
+  end
+  object ActionList1: TActionList
+    Left = 112
+    Top = 352
+    object actAggiungi: TAction
+      Text = 'actAggiungi'
+    end
+  end
+  object TetheringManager1: TTetheringManager
+    OnPairedToRemote = TetheringManager1PairedToRemote
+    Text = 'TetheringManager1'
+    Left = 128
+    Top = 232
+  end
+  object TetheringAppProfile1: TTetheringAppProfile
+    Manager = TetheringManager1
+    Text = 'TetheringAppProfile1'
+    Group = 'BarcodeGroup'
+    Actions = <
+      item
+        Name = 'actAggiungi'
+        IsPublic = True
+        Kind = Mirror
+        Action = actAggiungi
+        NotifyUpdates = False
+      end>
+    Resources = <
+      item
+        Name = 'Barcode'
+        IsPublic = True
+      end>
+    Left = 128
+    Top = 296
+  end
+end
