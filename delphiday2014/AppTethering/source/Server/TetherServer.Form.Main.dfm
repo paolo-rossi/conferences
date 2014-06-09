@@ -54,14 +54,14 @@ object frmMain: TfrmMain
     TabOrder = 2
   end
   object TetheringManager1: TTetheringManager
-    Text = 'X'
+    Text = 'TetheringManager1'
     Left = 64
     Top = 64
   end
   object TetheringAppProfile1: TTetheringAppProfile
     Manager = TetheringManager1
     Text = 'TetheringAppProfile1'
-    Group = 'Test1'
+    Group = 'BarcodeGroup'
     Actions = <
       item
         Name = 'actAggiungi'
