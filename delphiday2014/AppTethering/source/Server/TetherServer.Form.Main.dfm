@@ -1,8 +1,8 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Server Thetering App'
-  ClientHeight = 289
+  Caption = 'Server Thetering Application'
+  ClientHeight = 512
   ClientWidth = 554
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -14,6 +14,7 @@ object frmMain: TfrmMain
   Visible = True
   OnClick = actShowExecute
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -26,6 +27,19 @@ object frmMain: TfrmMain
     Font.Color = clWindowText
     Font.Height = -27
     Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object lblTime: TLabel
+    Left = 486
+    Top = 256
+    Width = 60
+    Height = 18
+    Caption = 'hh:mm:ss'
+    Font.Charset = SYMBOL_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'TechnicBold'
     Font.Style = []
     ParentFont = False
   end
@@ -53,13 +67,25 @@ object frmMain: TfrmMain
     Action = actReset
     TabOrder = 2
   end
-  object TetheringManager1: TTetheringManager
-    Text = 'TetheringManager1'
+  object mmoLog: TMemo
+    Left = 0
+    Top = 277
+    Width = 554
+    Height = 235
+    Align = alBottom
+    Lines.Strings = (
+      'mmoLog')
+    TabOrder = 3
+  end
+  object TetheringManagerServer: TTetheringManager
+    OnPairedFromLocal = TetheringManagerServerPairedFromLocal
+    OnPairedToRemote = TetheringManagerServerPairedToRemote
+    Text = 'TetheringManagerServer'
     Left = 64
     Top = 64
   end
   object TetheringAppProfile1: TTetheringAppProfile
-    Manager = TetheringManager1
+    Manager = TetheringManagerServer
     Text = 'TetheringAppProfile1'
     Group = 'BarcodeGroup'
     Actions = <
@@ -81,7 +107,11 @@ object frmMain: TfrmMain
         Action = actReset
         NotifyUpdates = False
       end>
-    Resources = <>
+    Resources = <
+      item
+        Name = 'CurTime'
+        IsPublic = True
+      end>
     Left = 64
     Top = 128
   end
@@ -104,5 +134,10 @@ object frmMain: TfrmMain
       Caption = 'actShow'
       OnExecute = actShowExecute
     end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 368
+    Top = 24
   end
 end

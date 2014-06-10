@@ -3,10 +3,13 @@
         <ProjectGuid>{5F5F90B6-C33C-4B2D-9AB1-D2302A9745C4}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="Mobile\TetherMobile.dproj">
+        <Projects Include="Server\TetherServer.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Server\TetherServer.dproj">
+        <Projects Include="Desktop\TetherDesktop.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Mobile\TetherMobile.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -17,15 +20,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="TetherMobile">
-        <MSBuild Projects="Mobile\TetherMobile.dproj"/>
-    </Target>
-    <Target Name="TetherMobile:Clean">
-        <MSBuild Projects="Mobile\TetherMobile.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TetherMobile:Make">
-        <MSBuild Projects="Mobile\TetherMobile.dproj" Targets="Make"/>
-    </Target>
     <Target Name="TetherServer">
         <MSBuild Projects="Server\TetherServer.dproj"/>
     </Target>
@@ -35,14 +29,32 @@
     <Target Name="TetherServer:Make">
         <MSBuild Projects="Server\TetherServer.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TetherDesktop">
+        <MSBuild Projects="Desktop\TetherDesktop.dproj"/>
+    </Target>
+    <Target Name="TetherDesktop:Clean">
+        <MSBuild Projects="Desktop\TetherDesktop.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TetherDesktop:Make">
+        <MSBuild Projects="Desktop\TetherDesktop.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TetherMobile">
+        <MSBuild Projects="Mobile\TetherMobile.dproj"/>
+    </Target>
+    <Target Name="TetherMobile:Clean">
+        <MSBuild Projects="Mobile\TetherMobile.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TetherMobile:Make">
+        <MSBuild Projects="Mobile\TetherMobile.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="TetherMobile;TetherServer"/>
+        <CallTarget Targets="TetherServer;TetherDesktop;TetherMobile"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="TetherMobile:Clean;TetherServer:Clean"/>
+        <CallTarget Targets="TetherServer:Clean;TetherDesktop:Clean;TetherMobile:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="TetherMobile:Make;TetherServer:Make"/>
+        <CallTarget Targets="TetherServer:Make;TetherDesktop:Make;TetherMobile:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
