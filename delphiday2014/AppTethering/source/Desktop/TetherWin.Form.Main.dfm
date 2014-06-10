@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Desktop Tethering Application'
-  ClientHeight = 299
+  ClientHeight = 227
   ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -36,6 +36,15 @@ object frmMain: TfrmMain
     TabOrder = 0
     OnClick = btnSubscriptionClick
   end
+  object Memo1: TMemo
+    Left = 400
+    Top = 0
+    Width = 235
+    Height = 227
+    Align = alRight
+    TabOrder = 1
+    ExplicitHeight = 299
+  end
   object TetheringManagerDesktop: TTetheringManager
     Text = 'TetheringManagerDesktop'
     Left = 104
@@ -45,11 +54,26 @@ object frmMain: TfrmMain
     Manager = TetheringManagerDesktop
     Text = 'TetheringAppProfileDesktop'
     Group = 'BarcodeGroup'
-    Actions = <>
+    Actions = <
+      item
+        Name = 'actUpdateDB'
+        IsPublic = True
+        Action = actUpdateDB
+        NotifyUpdates = False
+      end>
     Resources = <>
     OnAcceptResource = TetheringAppProfileDesktopAcceptResource
+    OnResourceReceived = TetheringAppProfileDesktopResourceReceived
     OnResourceUpdated = TetheringAppProfileDesktopResourceUpdated
     Left = 104
     Top = 152
+  end
+  object ActionList1: TActionList
+    Left = 312
+    Top = 16
+    object actUpdateDB: TAction
+      Caption = 'actUpdateDB'
+      OnExecute = actUpdateDBExecute
+    end
   end
 end

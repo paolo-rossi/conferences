@@ -6,35 +6,37 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, IPPeerClient, IPPeerServer,
   System.Actions, Vcl.ActnList, Vcl.StdCtrls, System.Tether.Manager,
-  System.Tether.AppProfile, Vcl.ExtCtrls;
+  System.Tether.AppProfile, Vcl.ExtCtrls, REST.Client, Data.Bind.Components,
+  Data.Bind.ObjectScope;
 
 type
   TfrmMain = class(TForm)
     TetheringManagerServer: TTetheringManager;
-    TetheringAppProfile1: TTetheringAppProfile;
+    TetheringAppProfileServer: TTetheringAppProfile;
     ActionList1: TActionList;
-    Label1: TLabel;
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
     actAggiungi: TAction;
     actSottrai: TAction;
     actReset: TAction;
     actShow: TAction;
     Timer1: TTimer;
-    lblTime: TLabel;
     mmoLog: TMemo;
-    procedure FormCreate(Sender: TObject);
-    procedure actShowExecute(Sender: TObject);
-    procedure actAggiungiExecute(Sender: TObject);
-    procedure actSottraiExecute(Sender: TObject);
-    procedure actResetExecute(Sender: TObject);
+    edtSendString: TEdit;
+    Button4: TButton;
+    RESTClient1: TRESTClient;
+    RESTRequest1: TRESTRequest;
+    RESTResponse1: TRESTResponse;
+    Panel1: TPanel;
+    Label2: TLabel;
+    lblTime: TLabel;
+    Button1: TButton;
     procedure Timer1Timer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TetheringManagerServerPairedFromLocal(const Sender: TObject;
       const AManagerInfo: TTetheringManagerInfo);
     procedure TetheringManagerServerPairedToRemote(const Sender: TObject;
       const AManagerInfo: TTetheringManagerInfo);
+    procedure Button4Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     FCounter: Integer;
@@ -47,40 +49,57 @@ var
 
 implementation
 
+uses
+  DateUtils, System.JSON;
+
 {$R *.dfm}
-
-procedure TfrmMain.actAggiungiExecute(Sender: TObject);
-begin
-  FCounter := FCounter + 1;
-  actShow.Execute;
-end;
-
-procedure TfrmMain.actResetExecute(Sender: TObject);
-begin
-  FCounter := 0;
-  actShow.Execute;
-end;
-
-procedure TfrmMain.actShowExecute(Sender: TObject);
-begin
-  Label1.Caption := IntToStr(FCounter);
-end;
-
-procedure TfrmMain.actSottraiExecute(Sender: TObject);
-begin
-  FCounter := FCounter - 1;
-  actShow.Execute;
-end;
-
-procedure TfrmMain.FormCreate(Sender: TObject);
-begin
-  FCounter := 0;
-  actShow.Execute;
-end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
   TetheringManagerServer.AutoConnect;
+
+  // A more DIY way...
+  {
+  TetheringManagerServer.DiscoverManagers();
+  TetheringManagerServer.DiscoverProfiles();
+  TetheringManagerServer.PairedManagers
+  TetheringManagerServer.PairManager();
+  }
+end;
+
+(*******************************************************************************
+How to exchange data
+*******************************************************************************)
+
+// 1st approach. Invoke Remote Action
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  LRemoteAct: TRemoteAction;
+begin
+  // Get the remote action
+  LRemoteAct := TetheringAppProfileServer.GetRemoteProfileActions(
+    TetheringManagerServer.RemoteProfiles[0]).Items[0];
+
+  // Execute the remote action
+  if Assigned(LRemoteAct) then
+    LRemoteAct.Execute;
+end;
+
+// 2nd approach.  Send to a remote profile (or profiles) a resource
+procedure TfrmMain.Button4Click(Sender: TObject);
+begin
+  TetheringAppProfileServer.SendString(TetheringManagerServer.RemoteProfiles[0], 'Simple Message', edtSendString.Text);
+  // To send way mooore data
+  //TetheringAppProfileServer.SendStream()
+end;
+
+// 3rd approach. Update a resource.
+// Another app can subscribe this resource and get immediately notified.
+procedure TfrmMain.Timer1Timer(Sender: TObject);
+begin
+  RESTRequest1.Execute;
+  lblTime.Caption := FormatDateTime('hh:nn:ss', UnixToDateTime((RESTResponse1.JSONValue as System.JSON.TJSONObject).GetValue('timestamp').Value.ToInteger));
+  TetheringAppProfileServer.Resources.FindByName('CurTime').Value := lblTime.Caption;
 end;
 
 procedure TfrmMain.TetheringManagerServerPairedFromLocal(const Sender: TObject;
@@ -93,12 +112,6 @@ procedure TfrmMain.TetheringManagerServerPairedToRemote(const Sender: TObject;
   const AManagerInfo: TTetheringManagerInfo);
 begin
   mmoLog.Lines.Add('Paired Remote ' + AManagerInfo.ManagerName);
-end;
-
-procedure TfrmMain.Timer1Timer(Sender: TObject);
-begin
-  lblTime.Caption := FormatDateTime('hh:nn:ss', Now);
-  TetheringAppProfile1.Resources.FindByName('CurTime').Value := lblTime.Caption;
 end;
 
 end.

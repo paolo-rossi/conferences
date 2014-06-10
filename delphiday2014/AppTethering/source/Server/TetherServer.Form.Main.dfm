@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Server Thetering Application'
-  ClientHeight = 512
+  ClientHeight = 289
   ClientWidth = 554
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,81 +12,88 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   Visible = True
-  OnClick = actShowExecute
-  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 256
-    Top = 64
-    Width = 77
-    Height = 33
-    Caption = 'Label1'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object lblTime: TLabel
-    Left = 486
-    Top = 256
-    Width = 60
-    Height = 18
-    Caption = 'hh:mm:ss'
-    Font.Charset = SYMBOL_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'TechnicBold'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Button1: TButton
-    Left = 256
-    Top = 120
-    Width = 75
-    Height = 25
-    Action = actAggiungi
-    TabOrder = 0
-  end
-  object Button2: TButton
-    Left = 258
-    Top = 151
-    Width = 75
-    Height = 25
-    Action = actSottrai
-    TabOrder = 1
-  end
-  object Button3: TButton
-    Left = 258
-    Top = 182
-    Width = 75
-    Height = 25
-    Action = actReset
-    TabOrder = 2
-  end
   object mmoLog: TMemo
     Left = 0
-    Top = 277
+    Top = 82
     Width = 554
-    Height = 235
+    Height = 207
     Align = alBottom
     Lines.Strings = (
       'mmoLog')
+    TabOrder = 0
+    ExplicitTop = 128
+  end
+  object edtSendString: TEdit
+    Left = 8
+    Top = 10
+    Width = 121
+    Height = 21
+    TabOrder = 1
+  end
+  object Button4: TButton
+    Left = 135
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Send Value'
+    TabOrder = 2
+    OnClick = Button4Click
+  end
+  object Panel1: TPanel
+    Left = 339
+    Top = 8
+    Width = 207
+    Height = 57
     TabOrder = 3
+    object Label2: TLabel
+      Left = 44
+      Top = 1
+      Width = 117
+      Height = 20
+      Caption = 'Internet Time'
+      Font.Charset = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'TechnicBold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTime: TLabel
+      Left = 69
+      Top = 25
+      Width = 70
+      Height = 20
+      Caption = 'hh:mm:ss'
+      Font.Charset = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'TechnicBold'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object Button1: TButton
+    Left = 8
+    Top = 39
+    Width = 121
+    Height = 25
+    Caption = 'Invoke Remote Action'
+    TabOrder = 4
+    OnClick = Button1Click
   end
   object TetheringManagerServer: TTetheringManager
     OnPairedFromLocal = TetheringManagerServerPairedFromLocal
     OnPairedToRemote = TetheringManagerServerPairedToRemote
     Text = 'TetheringManagerServer'
-    Left = 64
-    Top = 64
+    Left = 432
+    Top = 144
   end
-  object TetheringAppProfile1: TTetheringAppProfile
+  object TetheringAppProfileServer: TTetheringAppProfile
     Manager = TetheringManagerServer
-    Text = 'TetheringAppProfile1'
+    Text = 'TetheringAppProfileServer'
     Group = 'BarcodeGroup'
     Actions = <
       item
@@ -112,32 +119,53 @@ object frmMain: TfrmMain
         Name = 'CurTime'
         IsPublic = True
       end>
-    Left = 64
-    Top = 128
+    Left = 384
+    Top = 144
   end
   object ActionList1: TActionList
     Left = 152
     Top = 40
     object actAggiungi: TAction
       Caption = 'actAggiungi'
-      OnExecute = actAggiungiExecute
     end
     object actSottrai: TAction
       Caption = 'actSottrai'
-      OnExecute = actSottraiExecute
     end
     object actReset: TAction
       Caption = 'actReset'
-      OnExecute = actResetExecute
     end
     object actShow: TAction
       Caption = 'actShow'
-      OnExecute = actShowExecute
     end
   end
   object Timer1: TTimer
+    Interval = 5000
     OnTimer = Timer1Timer
-    Left = 368
-    Top = 24
+    Left = 192
+    Top = 40
+  end
+  object RESTClient1: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'UTF-8, *;q=0.8'
+    AcceptEncoding = 'identity'
+    BaseURL = 'http://api.timezonedb.com'
+    Params = <>
+    HandleRedirects = True
+    Left = 392
+    Top = 64
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Resource = '?zone=Europe/Rome&format=json&key=174OUE7G6ZKI'
+    Response = RESTResponse1
+    SynchronizedEvents = False
+    Left = 440
+    Top = 64
+  end
+  object RESTResponse1: TRESTResponse
+    ContentType = 'application/json'
+    Left = 504
+    Top = 64
   end
 end
