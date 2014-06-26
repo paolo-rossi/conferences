@@ -37,9 +37,10 @@ type
       const AManagerInfo: TTetheringManagerInfo);
     procedure Button4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure TetheringAppProfileServerResources1ResourceReceived(
+      const Sender: TObject; const AResource: TRemoteResource);
   private
     { Private declarations }
-    FCounter: Integer;
   public
     { Public declarations }
   end;
@@ -100,6 +101,12 @@ begin
   RESTRequest1.Execute;
   lblTime.Caption := FormatDateTime('hh:nn:ss', UnixToDateTime((RESTResponse1.JSONValue as System.JSON.TJSONObject).GetValue('timestamp').Value.ToInteger));
   TetheringAppProfileServer.Resources.FindByName('CurTime').Value := lblTime.Caption;
+end;
+
+procedure TfrmMain.TetheringAppProfileServerResources1ResourceReceived(
+  const Sender: TObject; const AResource: TRemoteResource);
+begin
+  mmoLog.Lines.Text := AResource.Value.AsString;
 end;
 
 procedure TfrmMain.TetheringManagerServerPairedFromLocal(const Sender: TObject;

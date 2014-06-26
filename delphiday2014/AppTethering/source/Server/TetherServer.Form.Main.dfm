@@ -17,14 +17,11 @@ object frmMain: TfrmMain
   TextHeight = 13
   object mmoLog: TMemo
     Left = 0
-    Top = 82
+    Top = 80
     Width = 554
-    Height = 207
+    Height = 209
     Align = alBottom
-    Lines.Strings = (
-      'mmoLog')
     TabOrder = 0
-    ExplicitTop = 128
   end
   object edtSendString: TEdit
     Left = 8
@@ -46,11 +43,11 @@ object frmMain: TfrmMain
     Left = 339
     Top = 8
     Width = 207
-    Height = 57
+    Height = 56
     TabOrder = 3
     object Label2: TLabel
-      Left = 44
-      Top = 1
+      Left = 52
+      Top = 2
       Width = 117
       Height = 20
       Caption = 'Internet Time'
@@ -87,9 +84,9 @@ object frmMain: TfrmMain
   object TetheringManagerServer: TTetheringManager
     OnPairedFromLocal = TetheringManagerServerPairedFromLocal
     OnPairedToRemote = TetheringManagerServerPairedToRemote
-    Text = 'TetheringManagerServer'
-    Left = 432
-    Top = 144
+    Text = 'Tethering Manager Server'
+    Left = 64
+    Top = 136
   end
   object TetheringAppProfileServer: TTetheringAppProfile
     Manager = TetheringManagerServer
@@ -118,9 +115,15 @@ object frmMain: TfrmMain
       item
         Name = 'CurTime'
         IsPublic = True
+      end
+      item
+        Name = 'Barcode'
+        IsPublic = True
+        Kind = Mirror
+        OnResourceReceived = TetheringAppProfileServerResources1ResourceReceived
       end>
-    Left = 384
-    Top = 144
+    Left = 64
+    Top = 208
   end
   object ActionList1: TActionList
     Left = 152
